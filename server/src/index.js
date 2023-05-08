@@ -12,6 +12,7 @@ app.use(cors());
 app.use("/auth", userRouter);
 app.use("/recipes", recipesRouter);
 
+mongoose.set("strictQuery", false)
 mongoose.connect(
   "mongodb+srv://razvandumitru2002:DN8aqf303xk58v2y@recipes.bekqfvb.mongodb.net/?retryWrites=true&w=majority",
   {
@@ -19,5 +20,9 @@ mongoose.connect(
     useUnifiedTopology: true,
   }
 );
+
+app.get("/", (req,res) => {
+  res.send("express is here")
+})
 
 app.listen(3001, () => console.log("Server started"));
