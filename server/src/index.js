@@ -21,8 +21,4 @@ mongoose.connect(
   }
 );
 
-app.get("/", (req,res) => {
-  res.send("express is here")
-})
-
 app.listen(3001, () => console.log("Server started"));
