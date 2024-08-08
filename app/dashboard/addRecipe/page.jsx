@@ -1,9 +1,11 @@
+"use client"
+import AddRecipeForm from '@/components/AddRecipeForm'
 import React from 'react'
 
 function AddRecipePage() {
   return (
     <div>
-       <h1 className='text-4xl'> Add Your Recipe</h1>
+       <AddRecipeForm/>
     </div>
   )
 }
