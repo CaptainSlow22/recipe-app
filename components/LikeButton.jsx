@@ -27,7 +27,7 @@ function LikeButton({ recipeId, initialLikes }) {
   };
 
   return (
-    <button onClick={handleLike} disabled={isLiked} className={`px-8 py-3 text-xl bg-red-500 text-white rounded-2xl ${isLiked ? "bg-gray-300 text-gray-700" : ""}`}>
+    <button onClick={handleLike} disabled={isLiked} className={`px-8 py-3 text-xl rounded-2xl ${isLiked ? "bg-gray-300 text-gray-700" : "bg-red-500 text-white"}`}>
       {isLiked ? 'Liked' : `Like`}
     </button>
   );
