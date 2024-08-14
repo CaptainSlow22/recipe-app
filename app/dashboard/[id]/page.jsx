@@ -30,16 +30,16 @@ const RecipePage =  ({ params }) => {
   console.log(recipe);
 
   if (loading) {
-    return <div className='p-16 flex justify-center uppercase font-black text-4xl'>Loading...</div>;
+    return <div className='p-16 mt-16 flex justify-center uppercase font-black text-4xl'>Loading...</div>;
   }
 
   if (error) {
-    return <div className='p-16 flex justify-center uppercase font-black text-4xl'>Error: {error}</div>;
+    return <div className='p-16 mt-16 flex justify-center uppercase font-black text-4xl'>Error: {error}</div>;
   }
 
   return (
-    <div className='mt-16 px-4 py-16 md:px-32 md:py-32'>
-        <div className='bg-white p-16 flex flex-col items-center space-y-2'>
+    <div className='mt-16 px-4 py-16 md:px-32 md:py-32 '>
+        <div className='bg-white p-16 flex flex-col items-center space-y-2 rounded-2xl shadow-xl'>
             <div className='flex justify-center'>
                 <img className='-mt-28 md:-mt-32 h-48 w-48 md:w-72 md:h-72 border-8 border-white object-cover rounded-full' src={recipe.imageUrl} alt={recipe.name} />
             </div>
