@@ -1,4 +1,5 @@
 import mongoose, { Schema, models } from "mongoose";
+import User from "./user";
 
 const recipeSchema = new Schema(
     {
@@ -24,10 +25,12 @@ const recipeSchema = new Schema(
       cookingTime: {
         type: Number,
       },
-      likes: {
-        type: Number,
-        default: 0,
-      },
+      likedBy: [
+        {
+          type: Schema.Types.ObjectId, 
+          ref: 'User'
+        }
+      ],
     },
     { timestamps: true }
   );

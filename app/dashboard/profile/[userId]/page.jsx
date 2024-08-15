@@ -52,7 +52,7 @@ const ProfilePage = ({params}) => {
 
   
   return (
-    <div className='p-16 mt-16 bg-gray-100'>
+    <div className='p-6 md:p-16 mt-16 bg-gray-100'>
      <h1 className='mt-8 flex justify-center text-center uppercase font-black text-4xl'>My Profile</h1>
      <UserCard avatar={session?.user?.name[0]} name={session?.user?.name} email={session?.user?.email}/>
      <h1 className='mt-8 text-4xl font-bold p-6'>My Recipes</h1>
