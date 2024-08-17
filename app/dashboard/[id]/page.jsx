@@ -38,8 +38,8 @@ const RecipePage =  ({ params }) => {
   }
 
   return (
-    <div className='mt-16 px-4 py-16 md:px-32 md:py-32 '>
-        <div className='bg-white p-16 flex flex-col items-center space-y-2 rounded-2xl shadow-xl'>
+    <div className='mt-16 px-4 py-16 md:px-16 md:py-32 '>
+        <div className='bg-white px-8 md:px-16 py-16 flex flex-col items-center space-y-2 rounded-2xl shadow-xl'>
             <div className='flex justify-center'>
                 <img className='-mt-28 md:-mt-32 h-48 w-48 md:w-72 md:h-72 border-8 border-white object-cover rounded-full' src={recipe.imageUrl} alt={recipe.name} />
             </div>
@@ -54,17 +54,26 @@ const RecipePage =  ({ params }) => {
                         <p className='uppercase font-bold'><strong>{recipe.cookingTime} min</strong></p>
                     </div>
                     <div className='flex flex-col items-center'>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" color='red' className="size-12">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="red" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" color='red' className="size-12">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                         </svg>
-                        <p className='uppercase font-bold text-red-600'><strong>{recipe.likes}</strong></p>
+                        <p className='uppercase font-bold text-red-600'><strong>{recipe.likedBy.length}</strong></p>
                     </div>
                 </div>
             </div>
-            <h1 className='text-3xl flex self-start font-bold'> Directions:</h1>
-            <p className='text-md md:text-xl font-bold flex self-start text-left text-balance'>{recipe.description}</p>
-            <div className='flex p-6'>
-                <LikeButton recipeId={id} initialLikes={recipe.likes} />
+            <div className='text-left flex flex-col items-start'>
+                <h1 className='text-3xl flex self-start font-bold'> Directions:</h1>
+                {recipe.description.split('\n').map((line, index) => (
+                    <p
+                    key={index}
+                    className="text-md md:text-xl font-bold flex self-start text-left"
+                    >
+                    {line}
+                    </p>
+                ))}
+            </div>
+            <div className='flex p-6 self-end'>
+                <LikeButton recipeId={id} initialLikes={recipe.likedBy.length} />
             </div>
         </div>
     </div>

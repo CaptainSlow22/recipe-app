@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
-import UserCard from '@/components/UserCard';
+import ProfileCard from '@/components/ProfileCard';
 import RecipeCard from '@/components/RecipeCard';
 import Link from 'next/link';
 
@@ -52,9 +52,9 @@ const ProfilePage = ({params}) => {
 
   
   return (
-    <div className='p-16 mt-16 bg-gray-100'>
+    <div className='p-6 md:p-16 mt-16 bg-gray-100'>
      <h1 className='mt-8 flex justify-center text-center uppercase font-black text-4xl'>My Profile</h1>
-     <UserCard avatar={session?.user?.name[0]} name={session?.user?.name} email={session?.user?.email}/>
+     <ProfileCard avatar={session?.user?.name[0]} name={session?.user?.name} email={session?.user?.email}/>
      <h1 className='mt-8 text-4xl font-bold p-6'>My Recipes</h1>
      <div className='mt-0 '>
             {recipes.length > 0 ? (
@@ -68,7 +68,7 @@ const ProfilePage = ({params}) => {
                                 name={recipe.name}
                                 category={recipe.category}
                                 cookingTime={recipe.cookingTime}
-                                likes={recipe.likes}
+                                likes={recipe.likedBy.length}
                             />
                             </Link>
                             <button onClick={() => handleDelete(recipe._id)} className='px-3 py-1 bg-red-500 text-white rounded-full'>Delete</button>

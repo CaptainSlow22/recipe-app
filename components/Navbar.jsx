@@ -21,7 +21,8 @@ const Navbar = () => {
     <div className='w-full mb-16 bg-white p-2 md:p-4 flex flex-row items-center justify-between shadow-xl fixed top-0'>
         <div className='flex flex-row items-center'>
             <h1 className='text-md md:text-4xl text-green-600 ml-2 mr-4 md:ml-10 font-black uppercase' ><Link href="/dashboard">dishjar</Link></h1>
-            <Link href="/dashboard/addRecipe" className='px-4 py-1 text-nowrap ml-2 mr-6 md:ml-10 rounded-full bg-green-600 text-white shadow-xl font-bold hover:scale-105 hover:bg-green-400'>+ Add Your Recipe</Link>
+            <Link href="/dashboard/forYou" className='ml-4 text-nowrap font-bold text-md uppercase'>For You</Link>
+            <Link href="/dashboard/addRecipe" className='px-3 py-1.5 text-nowrap ml-4 mr-6 rounded-full bg-green-600 text-white shadow-xl font-bold hover:scale-105 hover:bg-green-400'>+</Link>
         </div>
         <div className='flex flex-row items-center mr-4'>
             <DropdownMenu>

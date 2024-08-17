@@ -3,6 +3,8 @@
 import RecipeCard from '@/components/RecipeCard';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
 const Dashboard = () => {
     const [recipes, setRecipes] = useState([]);
@@ -10,6 +12,7 @@ const Dashboard = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [filter, setFilter] = useState('all');
+    const [searchInput, setSearchInput] = useState('');  // New state for search input
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 9;
 
@@ -43,7 +46,7 @@ const Dashboard = () => {
 
         switch (filter) {
             case 'mostLiked':
-                filtered = filtered.sort((a, b) => b.likes - a.likes);
+                filtered = filtered.sort((a, b) => b.likedBy.length - a.likedBy.length);
                 break;
             case 'quickest':
                 filtered = filtered.sort((a, b) => a.cookingTime - b.cookingTime);
@@ -65,6 +68,28 @@ const Dashboard = () => {
         }
 
         setFilteredRecipes(filtered);
+    };
+
+    const handleSearch = async () => {
+        if (!searchInput) {
+            setFilteredRecipes(recipes);
+            return;
+        }
+
+        try {
+            setLoading(true);
+            const response = await fetch(`/api/get/search?search=${encodeURIComponent(searchInput)}`);
+            if (!response.ok) {
+                throw new Error('Network response error');
+            }
+            const data = await response.json();
+            setFilteredRecipes(data);
+            setCurrentPage(1); // Reset to first page when search is performed
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     // Calculate recipes to display on the current page
@@ -92,8 +117,14 @@ const Dashboard = () => {
     }
 
     return (
-        <div className='p-16 bg-gray-100 mt-16'>
+        <div className='p-6 md:p-16 bg-gray-100 mt-16'>
             <h1 className='mt-8 flex justify-center text-center uppercase font-black text-4xl'>Explore Recipes</h1>
+            <div className="mt-8 flex w-full justify-center space-x-2">
+                <Input type="search" placeholder="Search for an ingredient..."
+                    value={searchInput}
+                    onChange={(e) => setSearchInput(e.target.value)}/>
+                <Button type="submit" onClick={handleSearch}>Search</Button>
+            </div>
             <div className='flex lg:justify-center w-full overflow-x-auto whitespace-nowrap gap-x-4 mt-8'>
                 <button
                     onClick={() => setFilter('all')}
@@ -195,7 +226,7 @@ const Dashboard = () => {
                                     name={recipe.name}
                                     category={recipe.category}
                                     cookingTime={recipe.cookingTime}
-                                    likes={recipe.likes}
+                                    likes={recipe.likedBy.length}
                                 />
                             </Link>
                         ))}

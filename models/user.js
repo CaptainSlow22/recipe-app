@@ -14,6 +14,18 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    followers: [
+      {
+        type: Schema.Types.ObjectId, 
+        ref: "User" // This references the User model
+      }
+    ],
+    following: [
+      {
+        type: Schema.Types.ObjectId, 
+        ref: "User" // This references the User model
+      }
+    ],
   },
   { 
     timestamps: true,
