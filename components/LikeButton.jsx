@@ -3,15 +3,16 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 
-function LikeButton({ recipeId, initialLikes}) {
-  const {data: session} = useSession();
+function LikeButton({ recipeId, initialLikes }) {
+  const { data: session } = useSession();
   const [likes, setLikes] = useState(initialLikes);
   const [isLiked, setIsLiked] = useState(false);
   const userId = session?.user?.id;
 
   useEffect(() => {
-    // Fetch the recipe to get the likedBy array and check if the user has already liked it
     const checkIfLiked = async () => {
+      if (!userId) return;  // If no userId, no need to check likes
+      
       try {
         const res = await fetch(`http://localhost:3000/api/get/getAllRecipes/${recipeId}`);
         if (!res.ok) {
@@ -20,10 +21,7 @@ function LikeButton({ recipeId, initialLikes}) {
         const recipe = await res.json();
         const likedBy = recipe.likedBy || [];
 
-        // Check if the current user is in the likedBy array
-        if (likedBy.includes(userId)) {
-          setIsLiked(true);
-        }
+        setIsLiked(likedBy.includes(userId));
       } catch (error) {
         console.error(error.message);
       }
@@ -33,7 +31,7 @@ function LikeButton({ recipeId, initialLikes}) {
   }, [recipeId, userId]);
 
   const handleLike = async () => {
-    if (isLiked) return;  
+    if (isLiked) return;  // If already liked, prevent further action
 
     try {
       const res = await fetch(`http://localhost:3000/api/put/likeRecipe/${recipeId}`, {
@@ -41,7 +39,7 @@ function LikeButton({ recipeId, initialLikes}) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId }), 
+        body: JSON.stringify({ userId }),
       });
 
       if (!res.ok) {
@@ -49,7 +47,7 @@ function LikeButton({ recipeId, initialLikes}) {
       }
 
       const updatedRecipe = await res.json();
-      setLikes(updatedRecipe.likedBy.length); 
+      setLikes(updatedRecipe.likedBy.length);
       setIsLiked(true);  // Disable the button after pressing
     } catch (error) {
       console.error(error.message);
@@ -57,8 +55,12 @@ function LikeButton({ recipeId, initialLikes}) {
   };
 
   return (
-    <button onClick={handleLike} disabled={isLiked} className={`px-8 py-3 text-xl rounded-2xl ${isLiked ? "bg-gray-300 text-gray-700" : "bg-red-500 text-white"}`}>
-      {isLiked ? 'Liked' : `Like`}
+    <button
+      onClick={handleLike}
+      disabled={isLiked}
+      className={`px-8 py-3 text-xl rounded-2xl ${isLiked ? "bg-gray-300 text-gray-700" : "bg-red-500 text-white"}`}
+    >
+      {isLiked ? 'Liked' : 'Like'}
     </button>
   );
 }

@@ -3,16 +3,55 @@ import React, { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import ProfileCard from '@/components/ProfileCard';
 import RecipeCard from '@/components/RecipeCard';
+import UserCard from '@/components/UserCard';
 import Link from 'next/link';
+import FollowingCard from '@/components/FollowingCard';
 
 const ProfilePage = ({params}) => {
   const {userId} = params;
   const {data: session} = useSession();
+  const [user, setUser] = useState(null);
+  const [following, setFollowing] = useState([]);
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   
+
+  useEffect(() => {
+    const fetchUser = async (userId) => {
+      try{
+        const response = await fetch(`http://localhost:3000/api/get/getUserById/${userId}`);
+        if (!response.ok) {
+          throw new Error('Network response error');
+        }
+        const data = await response.json();
+        console.log(data);
+        setUser(data[0]);
+      } catch(error) {
+        setError(error.message);
+      }
+    }
+    fetchUser(userId);
+  },[userId])
+
+  useEffect(() => {
+    const fetchFollowing = async (userId) => {
+      try{
+        const response = await fetch(`http://localhost:3000/api/get/getFollowing/${userId}`);
+        if (!response.ok) {
+          throw new Error('Network response error');
+        }
+        const data = await response.json();
+        console.log(data);
+        setFollowing(data);
+      } catch(error) {
+        setError(error.message);
+      }
+    }
+    fetchFollowing(userId);
+  },[userId])
+
   const handleDelete = async (recipeId) => {
     try {
       const response = await fetch(`http://localhost:3000/api/delete/deleteRecipe/${recipeId}`, {
@@ -29,7 +68,38 @@ const ProfilePage = ({params}) => {
     } catch (error) {
       console.log(error);
     }
-  };  
+  };
+  
+  const handleUnfollow = async (followedId) => {
+    if (!userId) return;
+  
+    try {
+      const response = await fetch(`http://localhost:3000/api/delete/deleteFollower`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          followerId: userId,
+          followedId: followedId,
+        }),
+      });
+  
+      if (response.ok) {
+        // Optimistically update the UI by filtering out the unfollowed user
+        setFollowing((prevFollowing) =>
+          prevFollowing.filter(user => user._id !== followedId)
+        );
+      } else {
+        throw new Error('Failed to unfollow the user');
+      }
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+  
+
+
 
   useEffect(() => {
     const fetchUserRecipes = async (userId) => {
@@ -54,7 +124,7 @@ const ProfilePage = ({params}) => {
   return (
     <div className='p-6 md:p-16 mt-16 bg-gray-100'>
      <h1 className='mt-8 flex justify-center text-center uppercase font-black text-4xl'>My Profile</h1>
-     <ProfileCard avatar={session?.user?.name[0]} name={session?.user?.name} email={session?.user?.email}/>
+     <ProfileCard avatar={session?.user?.name[0]} name={session?.user?.name} email={session?.user?.email} followers={user?.followers?.length} following={user?.following?.length} />
      <h1 className='mt-8 text-4xl font-bold p-6'>My Recipes</h1>
      <div className='mt-0 '>
             {recipes.length > 0 ? (
@@ -79,6 +149,32 @@ const ProfilePage = ({params}) => {
                     <p>No recipes found.</p>
                 )}
             </div>
+            <h1 className='mt-8 text-4xl font-bold p-6'>Following</h1>
+            <div className='mt-0 '>
+            {following.length >= 0 ? (
+                    <ul className='flex h-[300px] md:h-[550px] w-full overflow-x-auto items-center flex-grow-0 gap-x-4'>
+                        {following.map(follow => (
+                          <div className='flex flex-col items-center'>
+                            <Link key={follow._id} href={`/dashboard/user/${follow._id}`}>
+                              <FollowingCard
+                                  key={follow._id}
+                                  avatar={follow.name[0]}
+                                  name={follow.name}
+                                  followers={follow.followers.length}
+                                  following={follow.following.length}
+                              />
+                            </Link>
+                            <button onClick={() => handleUnfollow(follow._id)} className='mt-4 px-3 py-1 bg-gray-500 text-white rounded-full'>
+                              Unfollow
+                            </button>
+                          </div>  
+                        ))}
+                    </ul>
+                ) : (
+                    <p>No recipes found.</p>
+                )}
+            </div>
+
      {loading && (
         <div className='p-16  flex justify-center uppercase font-black text-4xl'>Loading...</div>
      )}
