@@ -11,7 +11,7 @@ function LikeButton({ recipeId, initialLikes }) {
 
   useEffect(() => {
     const checkIfLiked = async () => {
-      if (!userId) return;  // If no userId, no need to check likes
+      if (!userId) return;  
       
       try {
         const res = await fetch(`http://localhost:3000/api/get/getAllRecipes/${recipeId}`);
@@ -31,7 +31,7 @@ function LikeButton({ recipeId, initialLikes }) {
   }, [recipeId, userId]);
 
   const handleLike = async () => {
-    if (isLiked) return;  // If already liked, prevent further action
+    if (isLiked) return; 
 
     try {
       const res = await fetch(`http://localhost:3000/api/put/likeRecipe/${recipeId}`, {

@@ -13,10 +13,27 @@ const ProfilePage = ({params}) => {
   const [user, setUser] = useState(null);
   const [following, setFollowing] = useState([]);
   const [recipes, setRecipes] = useState([]);
+  const [likedRecipes, setLikedRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  
+  useEffect(() => {
+    const fetchLikedRecipes = async (userId) => {
+      try {
+        const response = await fetch(`http://localhost:3000/api/get/getLikedRecipes/${userId}`);
+        if(!response.ok) {
+          throw new Error("Network response error");
+        }
+        const data = await response.json();
+        setLikedRecipes(data);
+      } catch(error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchLikedRecipes(userId);
+  },[userId])
 
   useEffect(() => {
     const fetchUser = async (userId) => {
@@ -26,7 +43,6 @@ const ProfilePage = ({params}) => {
           throw new Error('Network response error');
         }
         const data = await response.json();
-        console.log(data);
         setUser(data[0]);
       } catch(error) {
         setError(error.message);
@@ -43,7 +59,6 @@ const ProfilePage = ({params}) => {
           throw new Error('Network response error');
         }
         const data = await response.json();
-        console.log(data);
         setFollowing(data);
       } catch(error) {
         setError(error.message);
@@ -60,8 +75,6 @@ const ProfilePage = ({params}) => {
   
       if (response.ok) {
         setRecipes((prevRecipes) => prevRecipes.filter((recipe) => recipe._id !== recipeId));
-        const data = await response.json();
-        console.log(data.message);
       } else {
         console.error('Failed to delete recipe');
       }
@@ -69,6 +82,25 @@ const ProfilePage = ({params}) => {
       console.log(error);
     }
   };
+
+  const handleUnlike = async (recipeId) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/delete/deleteLike`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ recipeId, userId }),
+      });
+
+      if(response.ok) {
+        setLikedRecipes((prevLikedRecipes) => prevLikedRecipes.filter((recipe) => recipe._id !== recipeId))
+      }
+
+    } catch(error) {
+      console.log(error);
+    }
+  }
   
   const handleUnfollow = async (followedId) => {
     if (!userId) return;
@@ -86,7 +118,6 @@ const ProfilePage = ({params}) => {
       });
   
       if (response.ok) {
-        // Optimistically update the UI by filtering out the unfollowed user
         setFollowing((prevFollowing) =>
           prevFollowing.filter(user => user._id !== followedId)
         );
@@ -98,14 +129,10 @@ const ProfilePage = ({params}) => {
     }
   };
   
-
-
-
   useEffect(() => {
     const fetchUserRecipes = async (userId) => {
       try {
         const response = await fetch(`http://localhost:3000/api/get/getRecipesByUserId/${userId}`);
-        console.log(userId);
         if (!response.ok) {
           throw new Error('Network response error');
         }
@@ -131,7 +158,7 @@ const ProfilePage = ({params}) => {
                     <ul className='flex h-[500px] w-full overflow-x-auto items-center flex-grow-0 gap-x-4'>
                         {recipes.map(recipe => (
                           <div className='flex flex-col items-center'>
-                            <Link key={recipe._id} href={`/dashboard/${recipe._id}`}>
+                            <Link key={recipe._id} href={`/dashboard/recipe/${recipe._id}`}>
                                 <RecipeCard
                                 key={recipe._id}
                                 imageUrl={recipe.imageUrl}
@@ -149,8 +176,32 @@ const ProfilePage = ({params}) => {
                     <p>No recipes found.</p>
                 )}
             </div>
-            <h1 className='mt-8 text-4xl font-bold p-6'>Following</h1>
+            <h1 className='mt-8 text-4xl font-bold p-6'>Liked Recipes</h1>
             <div className='mt-0 '>
+            {likedRecipes.length > 0 ? (
+                    <ul className='flex h-[500px] w-full overflow-x-auto items-center flex-grow-0 gap-x-4'>
+                        {likedRecipes.map(recipe => (
+                          <div className='flex flex-col items-center'>
+                            <Link key={recipe._id} href={`/dashboard/recipe/${recipe._id}`}>
+                                <RecipeCard
+                                key={recipe._id}
+                                imageUrl={recipe.imageUrl}
+                                name={recipe.name}
+                                category={recipe.category}
+                                cookingTime={recipe.cookingTime}
+                                likes={recipe.likedBy.length}
+                            />
+                            </Link>
+                            <button onClick={() => handleUnlike(recipe._id)} className='px-3 py-1 bg-red-500 text-white rounded-full'>Unlike</button>
+                          </div>  
+                        ))}
+                    </ul>
+                ) : (
+                    <p>No liked recipes.</p>
+                )}
+            </div>
+            <h1 className='mt-8 text-4xl font-bold p-6'>Following</h1>
+            <div className='-mt-8 '>
             {following.length >= 0 ? (
                     <ul className='flex h-[300px] md:h-[550px] w-full overflow-x-auto items-center flex-grow-0 gap-x-4'>
                         {following.map(follow => (
@@ -171,7 +222,7 @@ const ProfilePage = ({params}) => {
                         ))}
                     </ul>
                 ) : (
-                    <p>No recipes found.</p>
+                    <p>You don't follow any users.</p>
                 )}
             </div>
 
