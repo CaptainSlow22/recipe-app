@@ -116,7 +116,7 @@ export default function ForYou() {
                 {currentRecipes.length > 0 ? (
                     <ul className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16'>
                         {currentRecipes.map(recipe => (
-                            <Link key={recipe._id} href={`/dashboard/${recipe._id}`}>
+                            <Link key={recipe._id} href={`/dashboard/recipe/${recipe._id}`}>
                                 <RecipeCard
                                     key={recipe._id}
                                     imageUrl={recipe.imageUrl}
