@@ -32,7 +32,7 @@ const Navbar = () => {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem><Link href={`/dashboard/profile/${session?.user?.id}`}>My Profile</Link></DropdownMenuItem>
                 <DropdownMenuItem>
-                  <button onClick={() => signOut()}>Sign Out</button>
+                  <button onClick={() => signOut({callbackUrl: '/', redirect: true})}>Sign Out</button>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

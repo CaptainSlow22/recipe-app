@@ -48,7 +48,7 @@ export default function ForYou() {
           throw new Error("Network response error");
         }
         const data = await response.json();
-        setUsers(data.users);
+        setUsers(data.users.reverse());
 
         // Track which users are already followed
         const followed = new Set(data.users.filter(user => user.followers.includes(userId)).map(user => user._id));
