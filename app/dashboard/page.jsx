@@ -83,7 +83,7 @@ const Dashboard = () => {
                 throw new Error('Network response error');
             }
             const data = await response.json();
-            setFilteredRecipes(data);
+            setFilteredRecipes(data.reverse());
             setCurrentPage(1); // Reset to first page when search is performed
         } catch (error) {
             setError(error.message);

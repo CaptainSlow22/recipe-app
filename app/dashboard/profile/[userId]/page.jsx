@@ -59,7 +59,7 @@ const ProfilePage = ({params}) => {
           throw new Error('Network response error');
         }
         const data = await response.json();
-        setFollowing(data);
+        setFollowing(data.reverse());
       } catch(error) {
         setError(error.message);
       }
