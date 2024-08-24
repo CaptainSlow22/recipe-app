@@ -52,7 +52,7 @@ export default function RegisterForm() {
       if (res.ok) {
         const form = e.target;
         form.reset();
-        router.push("/");
+        router.push("/login");
       } else {
         console.log("User registration failed.");
       }
@@ -92,7 +92,7 @@ export default function RegisterForm() {
             </div>
           )}
 
-          <Link className="text-sm mt-3 text-right" href={"/"}>
+          <Link className="text-sm mt-3 text-right" href={"/login"}>
             Already have an account? <span className="underline">Login</span>
           </Link>
         </form>

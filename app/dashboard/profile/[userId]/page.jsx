@@ -157,7 +157,7 @@ const ProfilePage = ({params}) => {
             {recipes.length > 0 ? (
                     <ul className='flex h-[500px] w-full overflow-x-auto items-center flex-grow-0 gap-x-4'>
                         {recipes.map(recipe => (
-                          <div className='flex flex-col items-center'>
+                          <div key={recipe._id} className='flex flex-col items-center'>
                             <Link key={recipe._id} href={`/dashboard/recipe/${recipe._id}`}>
                                 <RecipeCard
                                 key={recipe._id}
@@ -181,7 +181,7 @@ const ProfilePage = ({params}) => {
             {likedRecipes.length > 0 ? (
                     <ul className='flex h-[500px] w-full overflow-x-auto items-center flex-grow-0 gap-x-4'>
                         {likedRecipes.map(recipe => (
-                          <div className='flex flex-col items-center'>
+                          <div key={recipe._id} className='flex flex-col items-center'>
                             <Link key={recipe._id} href={`/dashboard/recipe/${recipe._id}`}>
                                 <RecipeCard
                                 key={recipe._id}
@@ -202,10 +202,10 @@ const ProfilePage = ({params}) => {
             </div>
             <h1 className='mt-8 text-4xl font-bold p-6'>Following</h1>
             <div className='-mt-8 '>
-            {following.length >= 0 ? (
+            {following.length > 0 ? (
                     <ul className='flex h-[300px] md:h-[550px] w-full overflow-x-auto items-center flex-grow-0 gap-x-4'>
                         {following.map(follow => (
-                          <div className='flex flex-col items-center'>
+                          <div key={follow._id} className='flex flex-col items-center'>
                             <Link key={follow._id} href={`/dashboard/user/${follow._id}`}>
                               <FollowingCard
                                   key={follow._id}
@@ -222,7 +222,7 @@ const ProfilePage = ({params}) => {
                         ))}
                     </ul>
                 ) : (
-                    <p>You don't follow any users.</p>
+                    <p>You don&apos;t follow any users.</p>
                 )}
             </div>
 
