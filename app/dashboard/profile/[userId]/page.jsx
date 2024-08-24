@@ -20,7 +20,7 @@ const ProfilePage = ({params}) => {
   useEffect(() => {
     const fetchLikedRecipes = async (userId) => {
       try {
-        const response = await fetch(`http://localhost:3000/api/get/getLikedRecipes/${userId}`);
+        const response = await fetch(`../../../api/get/getLikedRecipes/${userId}`);
         if(!response.ok) {
           throw new Error("Network response error");
         }
@@ -38,7 +38,7 @@ const ProfilePage = ({params}) => {
   useEffect(() => {
     const fetchUser = async (userId) => {
       try{
-        const response = await fetch(`http://localhost:3000/api/get/getUserById/${userId}`);
+        const response = await fetch(`../../../api/get/getUserById/${userId}`);
         if (!response.ok) {
           throw new Error('Network response error');
         }
@@ -54,7 +54,7 @@ const ProfilePage = ({params}) => {
   useEffect(() => {
     const fetchFollowing = async (userId) => {
       try{
-        const response = await fetch(`http://localhost:3000/api/get/getFollowing/${userId}`);
+        const response = await fetch(`../../../api/get/getFollowing/${userId}`);
         if (!response.ok) {
           throw new Error('Network response error');
         }
@@ -69,7 +69,7 @@ const ProfilePage = ({params}) => {
 
   const handleDelete = async (recipeId) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/delete/deleteRecipe/${recipeId}`, {
+      const response = await fetch(`../../../api/delete/deleteRecipe/${recipeId}`, {
         method: 'DELETE',
       });
   
@@ -85,7 +85,7 @@ const ProfilePage = ({params}) => {
 
   const handleUnlike = async (recipeId) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/delete/deleteLike`, {
+      const response = await fetch(`../../../api/delete/deleteLike`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ const ProfilePage = ({params}) => {
     if (!userId) return;
   
     try {
-      const response = await fetch(`http://localhost:3000/api/delete/deleteFollower`, {
+      const response = await fetch(`../../../api/delete/deleteFollower`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -132,7 +132,7 @@ const ProfilePage = ({params}) => {
   useEffect(() => {
     const fetchUserRecipes = async (userId) => {
       try {
-        const response = await fetch(`http://localhost:3000/api/get/getRecipesByUserId/${userId}`);
+        const response = await fetch(`../../../api/get/getRecipesByUserId/${userId}`);
         if (!response.ok) {
           throw new Error('Network response error');
         }
