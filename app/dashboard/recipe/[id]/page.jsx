@@ -11,7 +11,7 @@ const RecipePage =  ({ params }) => {
   useEffect(() => {
     const fetchRecipe = async (id) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/get/getAllRecipes/${id}`); 
+            const response = await fetch(`../../../api/get/getAllRecipes/${id}`); 
             if (!response.ok) {
                 throw new Error('Network response error');
             }

@@ -14,7 +14,7 @@ function LikeButton({ recipeId, initialLikes }) {
       if (!userId) return;  
       
       try {
-        const res = await fetch(`http://localhost:3000/api/get/getAllRecipes/${recipeId}`);
+        const res = await fetch(`../../../api/get/getAllRecipes/${recipeId}`);
         if (!res.ok) {
           throw new Error('Failed to fetch recipe');
         }
@@ -34,7 +34,7 @@ function LikeButton({ recipeId, initialLikes }) {
     if (isLiked) return; 
 
     try {
-      const res = await fetch(`http://localhost:3000/api/put/likeRecipe/${recipeId}`, {
+      const res = await fetch(`../../../api/put/likeRecipe/${recipeId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
