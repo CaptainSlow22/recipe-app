@@ -67,7 +67,7 @@ const UserPage = ({params}) => {
     <div className='mt-16 p-16 bg-gray-100'>
         <div className='flex items-center space-x-2'>
             <div className='capitalize font-bold text-4xl bg-gray-100 px-4 py-2 rounded-full border-4 border-green-600'>{user?.name[0]}</div>
-            <h1 className='font-bold text-4xl text-left'>{user?.name}'s Recipes</h1>
+            <h1 className='font-bold text-4xl text-left'>{user?.name}&apos;s Recipes</h1>
         </div>
         <div className='mt-24 '>
             {currentRecipes.length > 0 ? (

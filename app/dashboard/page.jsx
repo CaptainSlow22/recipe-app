@@ -12,7 +12,7 @@ const Dashboard = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [filter, setFilter] = useState('all');
-    const [searchInput, setSearchInput] = useState('');  // New state for search input
+    const [searchInput, setSearchInput] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 9;
 
@@ -38,7 +38,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         applyFilter(filter);
-        setCurrentPage(1); // Reset to first page when filter changes
+        setCurrentPage(1);
     }, [filter, recipes]);
 
     const applyFilter = (filter) => {
@@ -84,7 +84,7 @@ const Dashboard = () => {
             }
             const data = await response.json();
             setFilteredRecipes(data.reverse());
-            setCurrentPage(1); // Reset to first page when search is performed
+            setCurrentPage(1);
         } catch (error) {
             setError(error.message);
         } finally {
@@ -97,7 +97,6 @@ const Dashboard = () => {
     const indexOfFirstRecipe = indexOfLastRecipe - itemsPerPage;
     const currentRecipes = filteredRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
 
-    // Calculate total pages
     const totalPages = Math.ceil(filteredRecipes.length / itemsPerPage);
 
     const handlePrevPage = () => {
