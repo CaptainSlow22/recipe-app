@@ -15,7 +15,7 @@ const UserPage = ({params}) => {
     useEffect(() => {
         const fetchUser = async (userId) => {
           try{
-            const response = await fetch(`http://localhost:3000/api/get/getUserById/${userId}`);
+            const response = await fetch(`../../../api/get/getUserById/${userId}`);
             if (!response.ok) {
               throw new Error('Network response error');
             }
@@ -32,7 +32,7 @@ const UserPage = ({params}) => {
     useEffect(() => {
         const fetchUserRecipes = async (userId) => {
           try {
-            const response = await fetch(`http://localhost:3000/api/get/getRecipesByUserId/${userId}`);
+            const response = await fetch(`../../../api/get/getRecipesByUserId/${userId}`);
             console.log(userId);
             if (!response.ok) {
               throw new Error('Network response error');
