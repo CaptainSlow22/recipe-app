@@ -19,7 +19,7 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchRecipes = async () => {
             try {
-                const response = await fetch('/api/get/getAllRecipes');
+                const response = await fetch('../../../api/get/getAllRecipes');
                 if (!response.ok) {
                     throw new Error('Network response error');
                 }
@@ -78,7 +78,7 @@ const Dashboard = () => {
 
         try {
             setLoading(true);
-            const response = await fetch(`/api/get/search?search=${encodeURIComponent(searchInput)}`);
+            const response = await fetch(`../../../api/get/search?search=${encodeURIComponent(searchInput)}`);
             if (!response.ok) {
                 throw new Error('Network response error');
             }
