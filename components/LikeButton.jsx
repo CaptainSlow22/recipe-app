@@ -1,40 +1,19 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 
-function LikeButton({ recipeId, initialLikes }) {
+function LikeButton({ recipeId, initialLikes, initialIsLiked, onLike }) {
   const { data: session } = useSession();
   const [likes, setLikes] = useState(initialLikes);
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(initialIsLiked);
   const userId = session?.user?.id;
 
-  useEffect(() => {
-    const checkIfLiked = async () => {
-      if (!userId) return;  
-      
-      try {
-        const res = await fetch(`../../../api/get/getAllRecipes/${recipeId}`);
-        if (!res.ok) {
-          throw new Error('Failed to fetch recipe');
-        }
-        const recipe = await res.json();
-        const likedBy = recipe.likedBy || [];
-
-        setIsLiked(likedBy.includes(userId));
-      } catch (error) {
-        console.error(error.message);
-      }
-    };
-
-    checkIfLiked();
-  }, [recipeId, userId]);
-
   const handleLike = async () => {
-    if (isLiked) return; 
+    if (isLiked) return;  
 
     try {
-      const res = await fetch(`../../../api/put/likeRecipe/${recipeId}`, {
+      const res = await fetch(`/api/put/likeRecipe/${recipeId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -48,17 +27,21 @@ function LikeButton({ recipeId, initialLikes }) {
 
       const updatedRecipe = await res.json();
       setLikes(updatedRecipe.likedBy.length);
-      setIsLiked(true);  // Disable the button after pressing
+      setIsLiked(true); 
+
+      if (onLike) {
+        onLike(updatedRecipe.likedBy.length); // Call parent function to update recipe page if necessary
+      }
     } catch (error) {
-      console.error(error.message);
+      console.error('Error liking recipe:', error.message);
     }
   };
 
   return (
     <button
       onClick={handleLike}
-      disabled={isLiked}
-      className={`px-5 py-2 text-xl rounded-full ${isLiked ? "bg-gray-300 text-gray-700" : "bg-red-500 text-white"}`}
+      disabled={isLiked}  // Button is disabled only if already liked
+      className={`px-5 py-2 text-xl rounded-full ${isLiked ? 'bg-gray-300 text-gray-700' : 'bg-red-500 text-white'}`}
     >
       {isLiked ? 'Liked' : 'Like'}
     </button>

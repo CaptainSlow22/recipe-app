@@ -1,6 +1,6 @@
 import React from 'react'
 
-const RecipeCard = ({name, imageUrl, category, cookingTime, likes }) => {
+const RecipeCard = ({name, imageUrl, category, cookingTime, likes}) => {
   return (
     <li className='mb-4 border rounded-2xl shadow-lg bg-white'>
             <div className='flex justify-center'>
