@@ -69,11 +69,11 @@ const UserPage = ({params}) => {
             <div className='capitalize font-bold text-4xl bg-gray-100 px-4 py-2 rounded-full border-4 border-green-600'>{user?.name[0]}</div>
             <h1 className='font-bold text-4xl text-left'>{user?.name}&apos;s Recipes</h1>
         </div>
-        <div className='mt-24 '>
+        <div className='mt-24'>
             {currentRecipes.length > 0 ? (
                     <ul className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16'>
                         {currentRecipes.map(recipe => (
-                            <Link key={recipe._id} href={`/dashboard/${recipe._id}`}>
+                            <Link key={recipe._id} href={`/dashboard/recipe/${recipe._id}`}>
                                 <RecipeCard
                                 key={recipe._id}
                                 imageUrl={recipe.imageUrl}

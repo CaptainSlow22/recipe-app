@@ -1,5 +1,4 @@
-"use client";
-
+"use client"
 import RecipeCard from '@/components/RecipeCard';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
@@ -117,7 +116,7 @@ const Dashboard = () => {
 
     return (
         <div className='p-6 md:p-16 bg-gray-100 mt-16'>
-            <h1 className='mt-8 flex justify-center text-center uppercase font-black text-4xl'>Explore Recipes</h1>
+            <h1 className='mt-8 flex justify-center text-center font-black text-4xl'>Explore Recipes</h1>
             <div className="mt-8 flex w-full justify-center space-x-2">
                 <Input type="search" placeholder="Search for an ingredient..."
                     value={searchInput}
@@ -215,9 +214,9 @@ const Dashboard = () => {
                 </button>
             </div>
             <div className='mt-24'>
-                {currentRecipes.length > 0 ? (
-                    <ul className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16'>
-                        {currentRecipes.map(recipe => (
+                <ul className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16'>
+                    {currentRecipes.length > 0 ? (
+                        currentRecipes.map(recipe => (
                             <Link key={recipe._id} href={`/dashboard/recipe/${recipe._id}`}>
                                 <RecipeCard
                                     key={recipe._id}
@@ -228,11 +227,11 @@ const Dashboard = () => {
                                     likes={recipe.likedBy.length}
                                 />
                             </Link>
-                        ))}
-                    </ul>
-                ) : (
-                    <p>No recipes found.</p>
-                )}
+                        ))
+                    ) : (
+                        <p>No recipes found.</p>
+                    )}
+                </ul>
             </div>
             <div className='flex flex-col items-center mt-8'>
                 <p className='font-bold md:text-xl'>Page {currentPage}</p>

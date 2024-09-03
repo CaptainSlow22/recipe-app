@@ -111,7 +111,7 @@ export default function ForYou() {
 
   return (
     <div className='p-6 mt-16 md:p-16'>
-      <h1 className='mx-auto font-black text-4xl text-center uppercase'>For You</h1>
+      <h1 className='mx-auto font-black text-4xl text-center'>For You</h1>
       <div className='mt-24'>
                 {currentRecipes.length > 0 ? (
                     <ul className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16'>
