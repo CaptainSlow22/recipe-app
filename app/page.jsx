@@ -10,11 +10,11 @@ export default async function Home() {
         <div className="flex flex-col w-full">
           <h1 className="text-4xl md:text-8xl lg:text-8xl text-left font-black text-green-600">Enjoy food</h1>
           <h1 className="text-4xl md:text-8xl lg:text-8xl text-left font-black ">from all over the world🌎</h1>
-          <Link href="/login"><button className="mt-8 text-2xl px-4 py-2 md:text-4xl md:px-8 md:py-4 rounded-full text-nowrap bg-black text-white font-black hover:scale-105 hover:shadow-xl">Get Started</button></Link>
+          <Link href="/login"><button className="mt-8 text-md md:text-2xl px-4 py-2  md:px-8 md:py-4 rounded-full text-nowrap bg-black text-white font-black hover:scale-105 hover:shadow-xl">Get Started</button></Link>
         </div>
         <div className="hidden lg:flex lg:flex-col lg:items-center lg:h-screen lg:w-screen">
         <Spline
-          scene="https://prod.spline.design/ooAISnAsmnCOvDID/scene.splinecode" 
+          scene="https://draft.spline.design/R3rDKw-8kAAod8wq/scene.splinecode" 
         />
         </div>
       </div>
