@@ -63,7 +63,7 @@ export default function LoginForm() {
           </Link>
         </form>
         <div className='mx-auto mt-4 font-bold'>
-          <p className="text-center">Test credidentials:</p>
+          <p className="text-center">Testing credentials:</p>
           <p className="text-center">test@yahoo.com / test</p>
       </div>
       </div>
